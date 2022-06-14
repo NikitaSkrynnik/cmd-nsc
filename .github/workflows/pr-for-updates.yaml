@@ -8,4 +8,4 @@ jobs:
   auto-pull-request:
     uses: NikitaSkrynnik/.github/.github/workflows/pr-for-updates.yaml@cmd-workflows
     secrets:
-      token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
