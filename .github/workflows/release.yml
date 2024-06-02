@@ -23,32 +23,12 @@ jobs:
           echo tag=${branch#release/} >> $GITHUB_OUTPUT
         id: get-tag-step
 
-  check-gomod-deps:
-    needs: get-tag
-    uses: networkservicemesh/.github/.github/workflows/check-gomod-deps.yaml@main
-    with:
-      tag: ${{ needs.get-tag.outputs.tag }}
-
-  create-release:
-    needs: [get-tag, check-gomod-deps]
-    uses: networkservicemesh/.github/.github/workflows/release.yaml@main
-    secrets:
-      token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
-
-  docker:
-    needs: [get-tag, check-gomod-deps]
-    uses: networkservicemesh/.github/.github/workflows/docker-release.yaml@main
+  update-deployments-k8s:
+    name: Update deployments-k8s
+    needs: [get-tag]
+    if: ${{ github.repository != 'networkservicemesh/cmd-template' }}
+    uses: NikitaSkrynnik/.github/.github/workflows/release-deployments.yaml@release-workflow-test
     with:
       tag: ${{ needs.get-tag.outputs.tag }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
-
-  update-deployments-k8s:
-    name: Update deployments-k8s
-    needs: [get-tag, create-release]
-    if: ${{ github.repository != 'networkservicemesh/cmd-template' }}
-    uses: networkservicemesh/.github/.github/workflows/release-deployments.yaml@main
-    with:
-      tag: ${{ needs.get-tag.outputs.tag }}
-    secrets:
-      token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
