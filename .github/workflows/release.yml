@@ -31,4 +31,4 @@ jobs:
     with:
       tag: ${{ needs.get-tag.outputs.tag }}
     secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ secrets.MY_TOKEN }}
