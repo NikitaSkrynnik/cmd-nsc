@@ -27,7 +27,7 @@ jobs:
     name: Update deployments-k8s
     needs: [get-tag]
     if: ${{ github.repository != 'networkservicemesh/cmd-template' }}
-    uses: NikitaSkrynnik/.github/.github/workflows/release-deployments.yaml@release-workflow-test
+    uses: NikitaSkrynnik/.github/.github/workflows/release-deployments.yaml@release-rework-test
     with:
       tag: ${{ needs.get-tag.outputs.tag }}
     secrets:
